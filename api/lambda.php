@@ -1,20 +1,19 @@
 <?php
 
-use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
+require __DIR__ . '/../vendor/autoload.php';
+$app = require_once __DIR__ . '/../bootstrap/app.php';
 
-define('LARAVEL_START', microtime(true));
+// هاد السطور مهمة بزاف باش Laravel يعرف فين يحط الكاش والملفات المؤقتة في Vercel
+$app->useStoragePath('/tmp');
+$app->instance('path.storage', '/tmp');
 
-// Determine if the application is in maintenance mode...
-if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
-    require $maintenance;
-}
+// هاد الجزء هو اللي كيخلي السرفر يجاوب على الطلبات
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
-// Register the Composer autoloader...
-require __DIR__.'/../vendor/autoload.php';
+$response = $kernel->handle(
+    $request = Illuminate\Http\Request::capture()
+);
 
-// Bootstrap Laravel and handle the request...
-/** @var Application $app */
-$app = require_once __DIR__.'/../bootstrap/app.php';
+$response->send();
 
-$app->handleRequest(Request::capture());
+$kernel->terminate($request, $response);
