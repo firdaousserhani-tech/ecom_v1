@@ -72,7 +72,7 @@
 </head>
 <body class="bg-gray-50 text-gray-800">
     <nav class="admin-header p-6 text-white flex justify-between items-center">
-        <h1 class="text-2xl font-bold tracking-tight">BEAUTY BLISS</h1>
+        <h1 class="text-2xl font-bold tracking-tight">PEAK ADVENTURE</h1>
         <div class="space-x-6">
             <a href="/" class="hover:text-orange-400 transition-colors">Home</a>
             <a href="/about" class="hover:text-orange-400 transition-colors">About</a>
@@ -94,26 +94,26 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="admin-card p-6">
                     <h2 class="text-xl font-semibold mb-4 text-green-900">Users</h2>
-                    <p class="text-gray-600">Manage customer accounts</p>
+                    <p class="text-gray-600">Manage user accounts</p>
                     <p class="admin-stat-number">150</p>
                 </div>
                 <div class="admin-card p-6">
                     <h2 class="text-xl font-semibold mb-4 text-green-900">Orders</h2>
-                    <p class="text-gray-600">View and manage beauty orders</p>
+                    <p class="text-gray-600">View and manage orders</p>
                     <p class="text-2xl font-bold text-green-600">45</p>
                 </div>
                 <div class="admin-card p-6">
                     <h2 class="text-xl font-semibold mb-4 text-green-900">Products</h2>
-                    <p class="text-gray-600">Manage cosmetic inventory</p>
+                    <p class="text-gray-600">Manage product inventory</p>
                     <p class="text-2xl font-bold text-green-800">200</p>
                 </div>
             </div>
             <div class="mt-8 admin-card p-6">
                 <h2 class="text-xl font-semibold mb-4 text-green-900">Recent Activity</h2>
                 <ul class="admin-activity-list space-y-2">
-                    <li class="text-gray-600">New customer registered: Sarah M.</li>
-                    <li class="text-gray-600">Order #1234 placed for skincare set</li>
-                    <li class="text-gray-600">Product "Luxury Lipstick" updated</li>
+                    <li class="text-gray-600">New user registered: John Doe</li>
+                    <li class="text-gray-600">Order #1234 placed</li>
+                    <li class="text-gray-600">Product "Hiking Backpack" updated</li>
                 </ul>
             </div>
         @else
