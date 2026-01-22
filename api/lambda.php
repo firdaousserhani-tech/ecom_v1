@@ -5,16 +5,25 @@ use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
 
-// Determine if the application is in maintenance mode...
+// 1. التأكد من مسار ملف الصيانة [cite: 111]
 if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
     require $maintenance;
 }
 
-// Register the Composer autoloader...
+// 2. تحميل ملفات autoload (تأكدي من وجود ../ حيت الملف داخل مجلد api) [cite: 115]
 require __DIR__.'/../vendor/autoload.php';
 
-// Bootstrap Laravel and handle the request...
+// 3. تشغيل الـ Bootstrap [cite: 118]
 /** @var Application $app */
 $app = require_once __DIR__.'/../bootstrap/app.php';
 
-$app->handleRequest(Request::capture());
+// 4. التعامل مع الطلب وإرسال الرد (هذا هو الجزء الأهم لـ Vercel)
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+
+$response = $kernel->handle(
+    $request = Request::capture()
+);
+
+$response->send();
+
+$kernel->terminate($request, $response);
