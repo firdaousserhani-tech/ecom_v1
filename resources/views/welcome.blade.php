@@ -3,110 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peak Adventure - Premium Outdoor Gear</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        function viewProduct(name, description) {
-            alert('Product: ' + name + '\n\nDescription: ' + description + '\n\nPrice: Contact us for pricing\n\nThis feature will be fully implemented soon!');
-        }
-    </script>
-</head>
-<body class="bg-gray-50 text-gray-800">
+    <title>Beauty Bliss - Home</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background-color: #f9f9f9; color: #333; }
+        
+        /* Navigation */
+        nav { background: #1a4731; color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        nav a { color: white; text-decoration: none; margin-left: 20px; font-weight: bold; }
+        nav a:hover { color: #ff9f43; }
 
-    <nav class="p-6 bg-green-800 text-white flex justify-between items-center shadow-md">
-        <h1 class="text-2xl font-bold tracking-tight">BEAUTY BLISS</h1>
-        <div class="space-x-6">
-            <a href="/" class="font-bold border-b-2 border-orange-400">Home</a>
-            <a href="/buy" class="hover:text-orange-400">Buy</a>
-            <a href="/about" class="hover:text-orange-400">About</a>
-            <a href="/contact" class="hover:text-orange-400">Contact</a>
-            <a href="/admin" class="hover:text-orange-400">Admin</a>
+        /* Hero Section */
+        header { background: #2d5a27; color: white; text-align: center; padding: 80px 20px; }
+        header h2 { font-size: 3rem; margin-bottom: 10px; }
+        .btn-shop { background: #ff9f43; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; margin-top: 20px; }
+
+        /* Product Grid */
+        .container { max-width: 1100px; margin: 50px auto; padding: 0 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        
+        /* Product Card */
+        .card { background: white; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; text-align: center; transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .card img { width: 100%; height: 200px; object-cover: cover; }
+        .card-body { padding: 20px; }
+        .price { font-size: 1.5rem; color: #2d5a27; font-weight: bold; margin: 10px 0; }
+        .buy-btn { background: #1a4731; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+
+        footer { background: #222; color: #ccc; text-align: center; padding: 40px; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h1>BEAUTY BLISS</h1>
+        <div>
+            <a href="/">Home</a>
+            <a href="/buy">Buy</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+            <a href="/admin">Admin</a>
         </div>
     </nav>
 
-    <header class="relative bg-green-900 text-white py-32 px-6 text-center">
-        <div class="max-w-3xl mx-auto">
-            <h2 class="text-5xl font-extrabold mb-4">Glow Up Your Beauty</h2>
-            <p class="text-xl mb-8 text-green-100">Premium cosmetics for radiant skin and confident beauty. Quality products for every look.</p>
-            <div class="space-x-4">
-                <a href="/buy" class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-full font-bold transition">Shop Beauty</a>
-                <a href="/about" class="border border-white hover:bg-white hover:text-green-900 px-8 py-3 rounded-full font-bold transition">Our Story</a>
-            </div>
-        </div>
+    <header>
+        <h2>Glow Up Your Beauty</h2>
+        <p>Premium cosmetics for radiant skin and confident beauty.</p>
+        <a href="#shop" class="btn-shop">Shop Now</a>
     </header>
 
-    <section id="shop" class="max-w-6xl mx-auto py-20 px-6">
-        <h3 class="text-3xl font-bold text-center mb-12 text-green-900">Explore Our Beauty Products</h3>
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition">
-                <a href="/contact" class="block">
-                    <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&h=300&fit=crop" alt="Facial Cleanser" class="w-full h-48 object-cover hover:opacity-90 transition-opacity">
-                </a>
-                <div class="p-6 text-center">
-                    <h4 class="text-xl font-bold mb-2">Facial Cleanser</h4>
-                    <p class="text-gray-600 mb-4">Gentle cleansing for all skin types.</p>
-                    <button onclick="viewProduct('Facial Cleanser', 'Gentle cleansing for all skin types. Perfect for daily use to remove impurities and prepare skin for moisturizing.')" class="text-orange-500 font-bold hover:underline">View Product →</button>
+    <section class="container" id="shop">
+        <h3 style="text-align: center; font-size: 2rem; margin-bottom: 40px;">Our Products</h3>
+        
+        <div class="grid">
+            @forelse($products as $product)
+                <div class="card">
+                    <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
+                    <div class="card-body">
+                        <h4>{{ $product->name }}</h4>
+                        <p>{{ $product->description }}</p>
+                        <div class="price">{{ number_format($product->price, 2) }} DH</div>
+                        <a href="/buy" class="buy-btn">Buy Now</a>
+                    </div>
                 </div>
-            </div>
-            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition">
-                <a href="/contact" class="block">
-                    <img src="https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=400&h=300&fit=crop" alt="Luxury Lipstick" class="w-full h-48 object-cover hover:opacity-90 transition-opacity">
-                </a>
-                <div class="p-6 text-center">
-                    <h4 class="text-xl font-bold mb-2">Luxury Lipstick</h4>
-                    <p class="text-gray-600 mb-4">Long-lasting, vibrant colors.</p>
-                    <button onclick="viewProduct('Luxury Lipstick', 'Premium long-lasting lipstick with vibrant colors. Creamy formula that glides on smoothly and stays put all day.')" class="text-orange-500 font-bold hover:underline">View Product →</button>
-                </div>
-            </div>
-            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition">
-                <a href="/contact" class="block">
-                    <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&h=300&fit=crop" alt="Hair Shampoo" class="w-full h-48 object-cover hover:opacity-90 transition-opacity">
-                </a>
-                <div class="p-6 text-center">
-                    <h4 class="text-xl font-bold mb-2">Hair Shampoo</h4>
-                    <p class="text-gray-600 mb-4">Nourishing formula for healthy hair.</p>
-                    <button onclick="viewProduct('Hair Shampoo', 'Rich, nourishing shampoo that cleanses while strengthening hair follicles. Perfect for all hair types.')" class="text-orange-500 font-bold hover:underline">View Product →</button>
-                </div>
-            </div>
-            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition">
-                <a href="/contact" class="block">
-                    <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=300&fit=crop" alt="Moisturizing Cream" class="w-full h-48 object-cover hover:opacity-90 transition-opacity">
-                </a>
-                <div class="p-6 text-center">
-                    <h4 class="text-xl font-bold mb-2">Moisturizing Cream</h4>
-                    <p class="text-gray-600 mb-4">Hydrate and protect your skin.</p>
-                    <button onclick="viewProduct('Moisturizing Cream', 'Deeply hydrating cream that nourishes and protects skin. Non-greasy formula perfect for daily use.')" class="text-orange-500 font-bold hover:underline">View Product →</button>
-                </div>
-            </div>
-            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition">
-                <a href="/contact" class="block">
-                    <img src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=400&h=300&fit=crop" alt="Eyeshadow Palette" class="w-full h-48 object-cover hover:opacity-90 transition-opacity">
-                </a>
-                <div class="p-6 text-center">
-                    <h4 class="text-xl font-bold mb-2">Eyeshadow Palette</h4>
-                    <p class="text-gray-600 mb-4">Professional quality pigments.</p>
-                    <button onclick="viewProduct('Eyeshadow Palette', 'Professional eyeshadow palette with highly pigmented colors. Blendable formula for stunning eye looks.')" class="text-orange-500 font-bold hover:underline">View Product →</button>
-                </div>
-            </div>
-            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition">
-                <a href="/contact" class="block">
-                    <img src="https://images.unsplash.com/photo-1582095133179-bfd08e2fc6b3?w=400&h=300&fit=crop" alt="Hair Conditioner" class="w-full h-48 object-cover hover:opacity-90 transition-opacity">
-                </a>
-                <div class="p-6 text-center">
-                    <h4 class="text-xl font-bold mb-2">Hair Conditioner</h4>
-                    <p class="text-gray-600 mb-4">Smooth and detangle your hair.</p>
-                    <button onclick="viewProduct('Hair Conditioner', 'Silky smooth conditioner that detangles and nourishes hair. Leaves hair soft, shiny, and manageable.')" class="text-orange-500 font-bold hover:underline">View Product →</button>
-                </div>
-            </div>
+            @empty
+                <p style="text-align: center; grid-column: 1/-1;">No products found in the database.</p>
+            @endforelse
         </div>
     </section>
 
-    <footer class="bg-gray-900 text-gray-400 py-12 text-center">
-        <p class="mb-4">&copy; 2024 Peak Adventure Gear. All rights reserved.</p>
-        <div class="space-x-4">
-            <a href="/about" class="hover:text-white">About</a>
-            <a href="/contact" class="hover:text-white">Contact</a>
-        </div>
+    <footer>
+        <p>&copy; 2026 Beauty Bliss Morocco. All rights reserved.</p>
     </footer>
 
 </body>

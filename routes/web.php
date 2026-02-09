@@ -2,22 +2,24 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Models\Product; // Don't forget to import the Model!
 
+// Welcome page - Now fetching products from phpMyAdmin
 Route::get('/', function () {
-    return view('welcome');
+    $products = Product::all(); 
+    return view('welcome', compact('products'));
 });
 
-// صفحة "من نحن"
+// About page
 Route::get('/about', function () {
     return view('about');
 })->name('about');
 
-// صفحة "اتصل بنا"
+// Contact page
 Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
-// Handle contact form submission
 Route::post('/contact', [AdminController::class, 'submitContact'])->name('contact.submit');
 
 // Buy page
@@ -25,7 +27,6 @@ Route::get('/buy', function () {
     return view('buy');
 })->name('buy');
 
-// Handle buy form submission
 Route::post('/buy', [AdminController::class, 'processOrder'])->name('buy.process');
 
 // Admin routes
