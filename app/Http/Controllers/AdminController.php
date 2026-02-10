@@ -3,12 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class AdminController extends Controller
 {
     public function index(Request $request)
     {
-        return view('admin.index', ['logged_in' => $request->cookie('admin_logged_in') === 'true']);
+        $loggedIn = $request->cookie('admin_logged_in') === 'true';
+        $products = $loggedIn ? Product::orderBy('created_at', 'desc')->get() : collect();
+
+        return view('admin.index', [
+            'logged_in' => $loggedIn,
+            'products' => $products,
+        ]);
     }
 
     public function login(Request $request)
@@ -101,5 +108,39 @@ class AdminController extends Controller
         ]);
 
         return back()->with('success', 'Thank you for your order! We\'ll process it and contact you soon with shipping details.');
+    }
+
+    public function storeProduct(Request $request)
+    {
+        if ($request->cookie('admin_logged_in') !== 'true') {
+            return redirect()->route('admin');
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'image' => 'nullable|string|max:255',
+        ]);
+
+        Product::create($validated);
+
+        return back()->with('success_product', 'Produit ajouté avec succès.');
+    }
+
+    public function deleteProduct(Request $request)
+    {
+        if ($request->cookie('admin_logged_in') !== 'true') {
+            return redirect()->route('admin');
+        }
+
+        $validated = $request->validate([
+            'product_id' => 'required|exists:products,id',
+        ]);
+
+        Product::where('id', $validated['product_id'])->delete();
+
+        return back()->with('success_product', 'Produit supprimé avec succès.');
     }
 }

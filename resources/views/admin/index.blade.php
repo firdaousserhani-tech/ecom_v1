@@ -84,6 +84,12 @@
     <div class="container mx-auto p-4">
         @if($logged_in)
             <!-- Dashboard Content -->
+            @if(session('success_product'))
+                <div class="mb-4 bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-lg">
+                    {{ session('success_product') }}
+                </div>
+            @endif
+
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-3xl font-bold text-rose-600">Admin Dashboard</h1>
                 <form method="POST" action="{{ route('admin.logout') }}" class="inline">
@@ -115,6 +121,63 @@
                     <li class="text-gray-600">Order #1234 placed</li>
                     <li class="text-gray-600">Product "Hiking Backpack" updated</li>
                 </ul>
+            </div>
+
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Add Product -->
+                <div class="admin-card p-6">
+                    <h2 class="text-xl font-semibold mb-4 text-rose-600">Ajouter un produit</h2>
+                    <form method="POST" action="{{ route('admin.products.store') }}" class="space-y-3">
+                        @csrf
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nom du produit</label>
+                            <input type="text" name="name" class="admin-input w-full" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                            <textarea name="description" class="admin-input w-full" rows="3"></textarea>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Prix (DH)</label>
+                                <input type="number" step="0.01" name="price" class="admin-input w-full" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Stock</label>
+                                <input type="number" name="stock" class="admin-input w-full" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Image (nom du fichier)</label>
+                            <input type="text" name="image" placeholder="ex: nouveau_produit.jpg" class="admin-input w-full">
+                            <p class="text-xs text-gray-500 mt-1">Mettre l'image dans le dossier public/images.</p>
+                        </div>
+                        <button type="submit" class="admin-btn-primary w-full mt-2">Ajouter le produit</button>
+                    </form>
+                </div>
+
+                <!-- Delete Product -->
+                <div class="admin-card p-6">
+                    <h2 class="text-xl font-semibold mb-4 text-rose-600">Supprimer un produit</h2>
+                    @if($products->isEmpty())
+                        <p class="text-gray-500 text-sm">Aucun produit disponible pour le moment.</p>
+                    @else
+                        <form method="POST" action="{{ route('admin.products.delete') }}" class="space-y-3">
+                            @csrf
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Choisir un produit</label>
+                                <select name="product_id" class="admin-input w-full" required>
+                                    @foreach($products as $product)
+                                        <option value="{{ $product->id }}">
+                                            #{{ $product->id }} - {{ $product->name }} ({{ number_format($product->price, 2) }} DH)
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <button type="submit" class="admin-btn-primary w-full bg-red-600 hover:bg-red-700">Supprimer le produit</button>
+                        </form>
+                    @endif
+                </div>
             </div>
         @else
             <!-- Login Form -->

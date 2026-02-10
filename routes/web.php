@@ -33,3 +33,5 @@ Route::post('/buy', [AdminController::class, 'processOrder'])->name('buy.process
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.login');
 Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+Route::post('/admin/products', [AdminController::class, 'storeProduct'])->name('admin.products.store');
+Route::post('/admin/products/delete', [AdminController::class, 'deleteProduct'])->name('admin.products.delete');
