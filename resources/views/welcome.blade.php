@@ -420,7 +420,10 @@
             <div class="hero-image-wrapper">
                 <div class="hero-main-image">
                     <span class="hero-pill">Best‑seller · Argan Glow Set</span>
-                    <img src="https://via.placeholder.com/900x600.png?text=Beauty+Bliss+Skincare" alt="Beauty Bliss skincare collection">
+                    <img
+                        src="{{ asset('images/hero_beauty_collection.jpg') }}"
+                        alt="Beauty Bliss skincare collection"
+                    >
                     <div class="hero-caption">
                         <h3>Glow Essentials Kit</h3>
                         <p>Serum, facial oil &amp; hydrating mist for 24h radiance.</p>
@@ -440,7 +443,10 @@
             @forelse($products as $product)
                 <div class="card">
                     <span class="pill-tag">New · Beauty</span>
-                    <img src="{{ $product->image }}" alt="{{ $product->name }}">
+                    <img
+                        src="{{ asset('images/' . $product->image) }}"
+                        alt="{{ $product->name }}"
+                    >
                     <div class="card-body">
                         <h4>{{ $product->name }}</h4>
                         <p>{{ $product->description }}</p>
